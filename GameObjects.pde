@@ -19,8 +19,10 @@ class GameObject {
 
 class Npc extends GameObject {
 
-  boolean right = true;
-
+  int dir =0; 
+  float tar;
+  
+  boolean down = false, right = true;
   Npc(float x, float y, float size, float speed) {
 
     super(x, y, size, speed);
@@ -30,19 +32,44 @@ class Npc extends GameObject {
   }
 
   void update() {
+    
     fill(255);
-    if (pos.x <= tLocLeft.x) {
-      right = true;
+    if (pos.x <= tLocLeft.x && !down && !right) {
+      tar = pos.y + 15;
+      right=true;
+      down= true;
     }
-    if (pos.x >= tLocRight.x) {
+    println(tar);
+    if(pos.x >= tLocRight.x && !down && right) {
+      tar = pos.y + 15;
       right = false;
+      down= true;
     }
+    print(right);
 
-    if (right) {
+
+
+
+    if (right && !down) {
       pos.x += speed;
-    } else {
+    }
+    if (!right && ! down) {
       pos.x -= speed;
     }
+    if (down) {
+      pos.y += speed;
+    }
+    if( pos.y >= tar){
+      down= false;
+    }
+
+   
+
+
+
+
+
+
     if ( pos.y + size/2 > bulletPos.y - bulletSize/2
       && pos.y - size/2 < bulletPos.y + bulletSize/2
       && pos.x + size/2 > bulletPos.x - bulletSize/2
